@@ -77,7 +77,17 @@ void setup() {
   menu = new Menu(width, 35);
   
   sqr = new SqrOsc[3];
-  for (char i = 0; i < 3; i++) sqr[i] = new SqrOsc(this);
+  try {
+    for (char i = 0; i < 3; i++) sqr[i] = new SqrOsc(this);
+    sqr[0].amp(1);
+    sqr[0].freq(220.44);
+  
+    sqr[1].amp(1);
+    sqr[1].freq(1500);
+  } catch (Exception e) {
+    for (char i = 0; i < 3; i++) sqr[i] = null;
+    println(e);
+  }
 
   pushMatrix();
   translate(width/2.0, height/2.0);
@@ -86,12 +96,6 @@ void setup() {
   popMatrix();
 
   escalaCinza();
-
-  sqr[0].amp(1);
-  sqr[0].freq(220.44);
-
-  sqr[1].amp(1);
-  sqr[1].freq(1500);
 
   m[0].setMatrix(pretoBranco);
   m[0].setVelMax(3.45);  // Em m/s
@@ -147,7 +151,7 @@ void draw() {
       //m[i].exuControl(leftSpeedPID, rightSpeedPID);
     }
   }
-  somEsq();
+  //somEsq();
   if (showAtualiza) m[0].atualiza(cor);
   if (keyPressed) {
     condSom();
@@ -219,14 +223,19 @@ void showButton() {
 }
 
 void som() {
-  if (m[0].somStatus() != last) {
-    if (m[0].somStatus()) {
-      sqr[0].play();
-    } else {
-      sqr[0].stop();
+  try {
+    if (m[0].somStatus() != last) {
+      if (m[0].somStatus()) {
+        sqr[0].play();
+      } else {
+        sqr[0].stop();
+      }
     }
+    last = m[0].somStatus();
   }
-  last = m[0].somStatus();
+  catch (RuntimeException e) {
+    println("Erro ao carregar som: " + e.getMessage());
+  }
 }
 
 void somSensorLateral() {
