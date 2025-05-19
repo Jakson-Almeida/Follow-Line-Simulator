@@ -4,7 +4,7 @@
 
 Simulador de robôs diferenciais do tipo seguidor de linha.
 
-- Robô difernecial
+- Robô diferencial
 - Cinemática
 - Dinâmica
 - Odometria
