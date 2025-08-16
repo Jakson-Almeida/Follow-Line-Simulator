@@ -10,3 +10,7 @@ Simulador de robôs diferenciais do tipo seguidor de linha. Esse projeto conta c
 - Odometria
 - Redes Neurais Recorrentes
 - PSO
+
+# Instalação
+
+Faça download do **Processing 4**. 
