@@ -1,8 +1,3 @@
-Here is the full translation to English:
-
-
----
-
 PSO Follow Line Deep Learning Simulator
 
 Processing simulator of a differential line-following robot with traditional control (PID), machine learning (recurrent neural networks), and PSO-based weight optimization (Particle Swarm Optimization). Includes a simplified physical model of the robot, virtual sensors, and an interactive interface for parameter visualization and tuning.
@@ -192,8 +187,3 @@ Distributed under the MIT license. See the LICENSE file for details.
 Credits
 
 Author: Jakson Almeida
-
-
----
-
-If you'd like, I can also revise this for a more polished, documentation-style English version.
