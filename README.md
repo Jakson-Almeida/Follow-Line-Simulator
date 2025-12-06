@@ -1,104 +1,199 @@
-# PSO Follow Line Deep Learning Simulator
+Here is the full translation to English:
 
-Simulador em Processing de um robô diferencial seguidor de linha com controle tradicional (PID), aprendizado de máquina (redes neurais recorrentes) e otimização de pesos via PSO (Particle Swarm Optimization). Inclui um modelo físico simplificado do robô, sensores virtuais e uma interface interativa para visualização e ajuste de parâmetros.
-
-![PSO Follow Line Deep Learning Simulator](data/images/PSOFollowLineDeepLearning04.png)
-
-### Principais recursos
-- Robô diferencial com modelo de dinâmica e cinemática
-- Odometria e sensores frontais/laterais virtuais para leitura da linha
-- Controle PID e controle por Rede Neural Recorrente (RNN)
-- Otimização de pesos da rede por PSO executando em tempo de simulação
-- Interface de menu para ajustar parâmetros de evolução e visualizar informações
-- Registro opcional de dados de simulação em arquivos `.txt`
 
 ---
 
-## Requisitos
-- Processing 4 (Java Mode)
-- Biblioteca Sound do Processing (utilizada para feedback sonoro)
-  - Instale em: Sketch > Import Library… > Add Library… > pesquise por “Sound” e instale “Sound” (Processing Foundation)
+PSO Follow Line Deep Learning Simulator
 
-Arquivos de mídia (imagens) já estão na pasta `data/` do projeto.
+Processing simulator of a differential line-following robot with traditional control (PID), machine learning (recurrent neural networks), and PSO-based weight optimization (Particle Swarm Optimization). Includes a simplified physical model of the robot, virtual sensors, and an interactive interface for parameter visualization and tuning.
 
-## Como executar
-1. Instale o Processing 4 e a biblioteca Sound (ver acima).
-2. Abra o projeto no Processing: File > Open… e selecione o diretório deste repositório (os arquivos `.pde` serão carregados como abas).
-3. Certifique-se de que os arquivos de imagem existem em `data/`:
-   - `data/Iron Cup 2019.png`
-   - `data/Ratão 4.0.png`
-4. Rode o sketch (tecla Play ou Ctrl/Cmd + R). O arquivo principal é `PSOFollowLineDeepLearning04.pde`.
 
-Opcional (linha de comando): se possuir `processing-java` instalado, você pode executar:
-```bash
-processing-java --sketch="/caminho/para/este/projeto" --run
-```
 
-## Controles durante a simulação
-- Teclado:
-  - `S` / `N`: liga/desliga som
-  - `A` / `D`: alterna exibição da trilha (atualização do desenho)
-  - `M` / `U`: mostra/oculta múltiplos robôs “fantasmas” (comparação visual)
-  - `I` / `O`: abre interface de PID (texto informativo)
-  - `C`: alterna exibição de um círculo guia sob o mouse
-- Mouse:
-  - Clique com botão direito: reposiciona o robô (centro)
-  - Barra superior: clique para abrir o menu; passe o mouse sobre as abas para exibir conteúdo; em algumas abas é possível arrastar barras deslizantes para ajustar parâmetros
+Main features
 
-## Menu e parâmetros
-O menu no topo possui abas:
-- Algoritmo Genético/PSO: mostra e permite ajustar parâmetros de evolução
-  - Tamanho da população, taxa de mutação e pesos da função de fitness (estabilidade, velocidade, distância)
-- Física: exibe parâmetros físicos (massa, momento de inércia, gravidade)
-- Controle PID: mostra os ganhos atuais da malha externa
-- Neural Network: mostra o tamanho de entrada/oculta/saída da rede
+Differential-drive robot with dynamic and kinematic model
 
-Observações:
-- A evolução por PSO ocorre em uma thread (`trainNet`) durante a execução e atualiza os melhores pesos periodicamente.
-- Métricas como “geração”, “fitness” etc. são impressas no console do Processing e exibidas no menu.
+Odometry and virtual front/side sensors for line detection
 
-## Configurações rápidas (no código)
-Os principais pontos configuráveis estão no `setup()` de `PSOFollowLineDeepLearning04.pde`:
-- Ganhos iniciais de PID: `m[0].setPID(200, 0, 8)`
-- Malhas externas (controladores usados pelo seguidor com controle de velocidade angular):
-  - `m[0].malha_ext_esq = new Control(200, 0, 8);`
-  - `m[0].malha_ext_dir = new Control(200, 0, 8);`
-- Rede neural (tamanhos):
-  - `int[] deepLearning = {11, 5, 2}; // entrada, ocultas, saída`
-  - `int[] temporalLayers = {2, 0, 0}; // camadas temporais para RNN`
-- Dinâmica/tempo:
-  - `m[0].setVelMax(3.45);` (m/s)
-  - `m[0].setVariacaoTempo(1000);` (µs por passo)
+PID control and Recurrent Neural Network (RNN) control
 
-Parâmetros do algoritmo de evolução (classe `DNA` em `AI.pde`):
-- `tamPopulacao` (tamanho da população), `mutacao` (taxa), pesos de fitness (`pesoVel`, `pesoDist`, `pesoEstabilidade`), limites de tempo e distância.
+In-simulation PSO optimization of neural network weights
 
-## Estrutura do projeto (arquivos principais)
-- `PSOFollowLineDeepLearning04.pde`: sketch principal; carrega pista, inicializa robô, rede, PSO e loop de simulação
-- `AI.pde` (classe `DNA`): avaliação de população, cálculo de fitness e iteração do PSO sobre pesos da rede
-- `Robot.pde` (classe `Movimento`): lógica do robô, leitura de linha, PID, controle neural, odometria, dinâmicas de roda
-- `Dynamic.pde`: dinâmica do robô (física simplificada), velocidades e integração
-- `Deep_Learning.pde`: implementação de `Neural_Network` e operações de matriz auxiliares
-- `Algebra.pde`: utilitários de matriz/vetores
-- `Heuristic.pde`: implementação do PSO (população, indivíduos, atualização de poses)
-- `Interface.pde`: menu superior, abas e barras deslizantes
-- `Controles.pde`: classe `Control` (parâmetros/estado de controladores) e logs
-- `Botoes.pde`: componentes de botão/área clicável usados pelo menu
-- `data/`: recursos estáticos (imagens) usados pelo sketch
-- `controle/`: logs opcionais exportados (velocidades, distância, tempo), quando habilitados
+Menu interface for adjusting evolutionary parameters and viewing information
 
-## Logs e exportação
-Quando habilitado (ver `Control.save_data`), o simulador salva séries temporais em `controle/`:
-- `vel_linear.txt`, `vel_estrategia.txt`, `dist_percorrida.txt`, `tempo.txt`
+Optional logging of simulation data into .txt files
 
-## Dicas
-- Se a janela não abrir ou o som falhar, verifique se a biblioteca “Sound” está instalada no Processing 4.
-- Para acelerar a simulação, ajuste `velTempo` em `PSOFollowLineDeepLearning04.pde`.
-- Se o robô “sumir” da pista (sair da imagem), reposicione com o botão direito do mouse.
 
-## Licença
-Distribuído sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
 
-## Créditos
-Autor: Jakson Almeida
+---
 
+Requirements
+
+Processing 4 (Java Mode)
+
+Processing Sound library (used for audio feedback)
+
+Install at: Sketch > Import Library… > Add Library… > search for “Sound” and install “Sound” (Processing Foundation)
+
+
+
+Media files (images) are included in the project’s data/ folder.
+
+How to run
+
+1. Install Processing 4 and the Sound library (see above).
+
+
+2. Open the project in Processing: File > Open… and select this repository’s directory (the .pde tabs will load automatically).
+
+
+3. Make sure the image files exist in data/:
+
+data/Iron Cup 2019.png
+
+data/Ratão 4.0.png
+
+
+
+4. Run the sketch (Play button or Ctrl/Cmd + R). The main file is PSOFollowLineDeepLearning04.pde.
+
+
+
+Optional (command line): if you have processing-java installed, you can run:
+
+processing-java --sketch="/path/to/this/project" --run
+
+Controls during simulation
+
+Keyboard:
+
+S / N: toggle sound on/off
+
+A / D: toggle trail drawing
+
+M / U: show/hide multiple “ghost” robots (visual comparison)
+
+I / O: open PID interface (informational text)
+
+C: toggle a guiding circle under the mouse
+
+
+Mouse:
+
+Right-click: reposition the robot (center)
+
+Top bar: click to open the menu; hover tabs to display content; in some tabs you can drag sliders to adjust parameters
+
+
+
+Menu and parameters
+
+The top menu has tabs:
+
+Genetic Algorithm / PSO: displays and allows tuning of evolutionary parameters
+
+Population size, mutation rate, and fitness function weights (stability, speed, distance)
+
+
+Physics: displays physical parameters (mass, inertia, gravity)
+
+PID Control: shows current gains of the outer control loop
+
+Neural Network: shows network input/hidden/output sizes
+
+
+Notes:
+
+PSO optimization runs in a background thread (trainNet) during execution and periodically updates the best weights.
+
+Metrics such as “generation”, “fitness”, etc. are printed to the Processing console and shown in the menu.
+
+
+Quick configuration (in the code)
+
+Main configurable points are in the setup() of PSOFollowLineDeepLearning04.pde:
+
+Initial PID gains: m[0].setPID(200, 0, 8)
+
+Outer loops (controllers used by the line-follower for angular velocity):
+
+m[0].malha_ext_esq = new Control(200, 0, 8);
+
+m[0].malha_ext_dir = new Control(200, 0, 8);
+
+
+Neural network (sizes):
+
+int[] deepLearning = {11, 5, 2}; // input, hidden, output
+
+int[] temporalLayers = {2, 0, 0}; // temporal layers for RNN
+
+
+Dynamics/time:
+
+m[0].setVelMax(3.45); (m/s)
+
+m[0].setVariacaoTempo(1000); (µs per step)
+
+
+
+Evolution algorithm parameters (class DNA in AI.pde):
+
+tamPopulacao (population size), mutacao (rate), fitness weights (pesoVel, pesoDist, pesoEstabilidade), time and distance limits.
+
+
+Project structure (main files)
+
+PSOFollowLineDeepLearning04.pde: main sketch; loads track, initializes robot, network, PSO, and simulation loop
+
+AI.pde (DNA class): population evaluation, fitness calculation, and PSO iteration over network weights
+
+Robot.pde (Movimento class): robot logic, line reading, PID, neural control, odometry, wheel dynamics
+
+Dynamic.pde: robot physics (simplified), velocities, integration
+
+Deep_Learning.pde: implementation of Neural_Network and auxiliary matrix operations
+
+Algebra.pde: matrix/vector utilities
+
+Heuristic.pde: PSO implementation (population, individuals, pose updates)
+
+Interface.pde: top menu, tabs, and sliders
+
+Controles.pde: Control class (controller parameters/state) and logs
+
+Botoes.pde: button/clickable area components used by the menu
+
+data/: static assets (images) used by the sketch
+
+controle/: optional exported logs (velocity, distance, time) when enabled
+
+
+Logs and export
+
+When enabled (see Control.save_data), the simulator saves time-series logs to controle/:
+
+vel_linear.txt, vel_estrategia.txt, dist_percorrida.txt, tempo.txt
+
+
+Tips
+
+If the window does not open or sound fails, check if the “Sound” library is installed in Processing 4.
+
+To speed up the simulation, adjust velTempo in PSOFollowLineDeepLearning04.pde.
+
+If the robot “disappears” from the track (leaves the image), reposition it with the right mouse button.
+
+
+License
+
+Distributed under the MIT license. See the LICENSE file for details.
+
+Credits
+
+Author: Jakson Almeida
+
+
+---
+
+If you'd like, I can also revise this for a more polished, documentation-style English version.
