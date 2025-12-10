@@ -1,5 +1,7 @@
 # PSO Follow Line Deep Learning Simulator
 
+![PSO Follow Line Simulator](https://raw.githubusercontent.com/Jakson-Almeida/Follow-Line-Simulator/main/data/images/PSOFollowLineDeepLearning04.png)
+
 A Processing simulator of a differential line-following robot with traditional control (PID), machine learning (recurrent neural networks), and PSO-based weight optimization (Particle Swarm Optimization). Includes a simplified physical model of the robot, virtual sensors, and an interactive interface for parameter visualization and tuning.
 
 ## Main Features
